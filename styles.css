@@ -1,49 +1,86 @@
-body{
-    color: oklch(100% 0 0);
-    text-align: center;
-    background-attachment: fixed;
-    width: 100%;
-    height: 100dvh;
-    margin: 0;
-    padding: 0;
-}
-.bg1{
-    background: linear-gradient(in oklch 112deg, oklch(5% 0.2 225), oklch(5% 0.25 315));
-    background-size: cover;
-    background-attachment: fixed;
-}
-.board {
-    display: inline-grid;
-    grid-template-columns: repeat(8, 50px);
-    grid-template-rows: repeat(8, 50px);
-    gap: 4px;                               
-    padding: 10px;
-    background-color: oklch(10% 0.02 270 / 0.5); 
-    border-radius: 12px;
-    margin-top: 20px;
-}
-.cell, .cell_flag {
-    width: 50px;
-    height: 50px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: oklch(25% 0.05 270 / 0.6);
-    box-shadow: 0 0 10px oklch(75% 0.15 225 / 0.3);
-}
-.cell_revealed {
-    width: 50px;
-    height: 50px;
-    border: none;
-    border-radius: 8px;
-    cursor: default;
-    background-color: oklch(15% 0.05 270 / 0.8);
-    box-shadow: inset 2px 2px 5px oklch(0% 0 0 / 0.5);
-    color: oklch(90% 0.1 140);
-    font-size: 20px;
-    font-weight: bold;
+.bg1 {
+    background-color: oklch(25% 0.02 240);
+    color: oklch(90% 0.02 240);
     font-family: sans-serif;
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.controls label {
+    font-size: 14px;
+}
+
+.controls input {
+    width: 50px;
+    padding: 4px;
+    background: oklch(35% 0.02 240);
+    border: 1px solid oklch(50% 0.02 240);
+    color: white;
+    border-radius: 4px;
+}
+
+.controls button {
+    padding: 6px 12px;
+    background: oklch(60% 0.12 140);
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.controls button:hover {
+    background: oklch(65% 0.12 140);
+}
+
+.board {
+    display: grid;
+    gap: 2px;
+    background-color: oklch(35% 0.02 240);
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    background-color: oklch(50% 0.02 240);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell:hover {
+    background-color: oklch(55% 0.02 240);
+}
+
+.cell_revealed {
+    width: 40px;
+    height: 40px;
+    background-color: oklch(30% 0.02 240);
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell_flag {
+    font-size: 16px;
 }

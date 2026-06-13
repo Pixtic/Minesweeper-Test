@@ -5,7 +5,13 @@
     </head>
     <body class="bg1">
         <h1>Minesweeper</h1>
+        <div class="controls">
+            <label>Rows: <input type="number" id="rowsInput" value="8" min="2" max="30"></label>
+            <label>Columns: <input type="number" id="colsInput" value="8" min="2" max="30"></label>
+            <label>Mines: <input type="number" id="minesInput" value="10" min="1"></label>
+            <button id="startBtn">New Game</button>
+        </div>
         <div class="board"></div>
-        <script src="system.js"></script>
+        <script src="system.js" defer></script>
     </body>
 </html>
