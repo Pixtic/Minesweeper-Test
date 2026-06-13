@@ -1,0 +1,49 @@
+body{
+    color: oklch(100% 0 0);
+    text-align: center;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+}
+.bg1{
+    background: linear-gradient(in oklch 112deg, oklch(5% 0.2 225), oklch(5% 0.25 315));
+    background-size: cover;
+    background-attachment: fixed;
+}
+.board {
+    display: inline-grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-template-rows: repeat(8, 50px);
+    gap: 4px;                               
+    padding: 10px;
+    background-color: oklch(10% 0.02 270 / 0.5); 
+    border-radius: 12px;
+    margin-top: 20px;
+}
+.cell, .cell_flag {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: oklch(25% 0.05 270 / 0.6);
+    box-shadow: 0 0 10px oklch(75% 0.15 225 / 0.3);
+}
+.cell_revealed {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    cursor: default;
+    background-color: oklch(15% 0.05 270 / 0.8);
+    box-shadow: inset 2px 2px 5px oklch(0% 0 0 / 0.5);
+    color: oklch(90% 0.1 140);
+    font-size: 20px;
+    font-weight: bold;
+    font-family: sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
