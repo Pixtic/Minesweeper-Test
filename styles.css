@@ -10,7 +10,22 @@
     min-height: 100vh;
 }
 
-#difficultySelect {
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.controls label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Base Dropdown Menu Styles */
+#difficultySelect, #leaderboardDifficultySelect {
     padding: 6px 10px;
     background-color: oklch(35% 0.02 240);
     border: 1px solid oklch(50% 0.02 240);
@@ -22,34 +37,24 @@
     outline: none;
 }
 
-#difficultySelect:hover {
+#difficultySelect:hover, #leaderboardDifficultySelect:hover {
     background-color: oklch(40% 0.02 240);
     border-color: oklch(60% 0.02 240);
 }
 
-#difficultySelect option {
+#difficultySelect option, #leaderboardDifficultySelect option {
     background-color: oklch(25% 0.02 240);
     color: white;
 }
 
-.controls {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.controls label {
-    font-size: 14px;
-}
-
-.controls input {
-    width: 50px;
-    padding: 4px;
-    background: oklch(35% 0.02 240);
-    border: 1px solid oklch(50% 0.02 240);
-    color: white;
+#timerDisplay {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: oklch(35% 0.02 240);
+    padding: 6px 12px;
     border-radius: 4px;
+    min-width: 60px;
+    text-align: center;
 }
 
 .controls button, #modeBtn {
@@ -64,6 +69,10 @@
 
 .controls button:hover, #modeBtn:hover {
     background: oklch(65% 0.12 140);
+}
+
+#modeBtn {
+    margin-top: 20px;
 }
 
 .board {
@@ -105,4 +114,66 @@
 
 .cell_flag {
     font-size: 12px;
+}
+
+.nav-container {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.nav-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: oklch(35% 0.02 240);
+    border: 1px solid oklch(50% 0.02 240);
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-align: center;
+}
+
+.nav-btn:hover {
+    background-color: oklch(40% 0.02 240);
+    border-color: oklch(60% 0.02 240);
+}
+
+/* Leaderboard Content Layout Box */
+.leaderboard-page-container {
+    background-color: oklch(20% 0.02 240);
+    padding: 25px 40px;
+    border-radius: 8px;
+    border: 1px solid oklch(35% 0.02 240);
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.leaderboard-page-container h3 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: oklch(85% 0.12 140);
+    border-bottom: 1px solid oklch(35% 0.02 240);
+    padding-bottom: 10px;
+}
+
+.leaderboard-page-container ol {
+    margin: 0;
+    padding-left: 25px;
+    text-align: left;
+}
+
+.leaderboard-page-container li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: oklch(90% 0.02 240);
+    font-family: monospace;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Minesweeper Leaderboard</title>
+        <style> @import "styles.css"; </style>
+    </head>
+    <body class="bg1">
+        <h1>🏆 LEADERBOARDS 🏆</h1>
+
+        <div class="controls">
+            <label>View Level:
+                <select id="leaderboardDifficultySelect">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </label>
+            <a href="index.html" class="nav-btn">⬅ Back to Game</a>
+        </div>
+
+        <div class="leaderboard-page-container">
+            <h3 id="pageLeaderboardTitle">Easy Top Scores</h3>
+            <ol id="pageLeaderboardList">
+                <li>No scores recorded yet!</li>
+            </ol>
+        </div>
+
+        <script src="leaderboard.js" defer></script>
+    </body>
+</html>

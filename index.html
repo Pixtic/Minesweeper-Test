@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Minesweeper Game</title>
         <style> @import "styles.css"; </style>
     </head>
     <body class="bg1">
         <h1>Minesweeper</h1>
+        
         <div class="controls">
             <label>Difficulty:
                 <select id="difficultySelect">
@@ -16,10 +18,18 @@
             <button id="startBtn">New Game</button>
         </div>
         
-        <div class="board"></div>
+        <div class="status-panel" style="margin: 15px 0; font-weight: bold; font-size: 1.2rem;">
+            <div id="timerDisplay">Time: 0s</div>
+        </div>
         
+        <div class="board"></div>
+
         <button id="modeBtn" style="margin-top: 20px;">Mode: Reveal</button>
         
         <script src="system.js" defer></script>
+
+        <div class="nav-container" style="margin-top: 20px;">
+            <a href="leaderboard.html" class="nav-btn">LEADERBOARDS</a>
+        </div>
     </body>
 </html>

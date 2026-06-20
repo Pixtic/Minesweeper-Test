@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const startBtn = document.getElementById('startBtn');
     const modeBtn = document.getElementById('modeBtn');
     const difficultySelect = document.getElementById('difficultySelect');
+    const timerDisplay = document.getElementById('timerDisplay');
 
     let grid = [];
     let cellsList = [];
@@ -12,11 +13,66 @@ document.addEventListener('DOMContentLoaded', function() {
     let revealedCount = 0;
     let isFlagMode = false;
 
+    let timerInterval = null;
+    let secondsElapsed = 0;
+    let isGameActive = false;
+
     const difficulties = {
-        easy: { rows: 8, cols: 8, mines: 10 },
+        easy: { rows: 8, cols: 8, mines: 1 },
         medium: { rows: 16, cols: 16, mines: 40 },
         hard: { rows: 16, cols: 30, mines: 99 }
     };
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        secondsElapsed = 0;
+        timerDisplay.innerText = "Time: 0s";
+        timerInterval = setInterval(function() {
+            secondsElapsed++;
+            timerDisplay.innerText = `Time: ${secondsElapsed}s`;
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+    }
+
+    async function saveScore(time) {
+        const currentMode = difficultySelect.value;
+        const name = prompt("🏆 You Won! Enter your nickname (max 15 characters):") || "Anonymous";
+        const finalName = name.trim().slice(0, 15) || "Anonymous";
+
+        const SUPABASE_URL = "https://lcabqlfbfgpdkqrrmgpq.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjYWJxbGZiZmdwZGtxcnJtZ3BxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODk4MzgsImV4cCI6MjA5NzQ2NTgzOH0.t8PSeaBS28H0eeChTurquSy9XP32WZR6-cxy_TOxKgo";
+
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/leaderboards`, {
+                method: "POST",
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal"
+                },
+                body: JSON.stringify({
+                    name: finalName,
+                    time: parseInt(time),
+                    difficulty: currentMode
+                })
+            });
+
+            if (!response.ok) {
+                const errorDetails = await response.text();
+                throw new Error(`Cloud rejection (${response.status}): ${errorDetails}`);
+            }
+            
+            alert("Score successfully synchronized to the global leaderboard!");
+
+        } catch (error) {
+            console.error("Database connection failure:", error);
+            alert(`Could not save to global cloud: ${error.message}`);
+        }
+    }
 
     function getNeighbor(row, col) {
         if (grid[row] && grid[row][col]) {
@@ -42,18 +98,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function checkWin() {
+        if (!isGameActive) return;
+
         const totalSafeCells = cellsList.length - totalMines;
         if (revealedCount === totalSafeCells) {
+            stopTimer();
+            isGameActive = false;
+            const finalTime = secondsElapsed;
+            const currentMode = difficultySelect.value;
+            
             setTimeout(function() {
-                alert("Congratulations! You won!");
-                const currentMode = difficultySelect.value;
                 initGame(difficulties[currentMode].rows, difficulties[currentMode].cols, difficulties[currentMode].mines);
             }, 300);
+
+            setTimeout(function() {
+                saveScore(finalTime);
+            }, 500);
         }
     }
 
     function toggleFlag(cellButton) {
-        if (cellButton.classList.contains('cell_revealed')){
+        if (!isGameActive || cellButton.classList.contains('cell_revealed')){
             return; 
         }
         cellButton.classList.toggle('cell_flag');
@@ -61,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function revealCell(cellButton) {
-        if (cellButton.classList.contains('cell_revealed') || cellButton.classList.contains('cell_flag')) {
+        if (!isGameActive || cellButton.classList.contains('cell_revealed') || cellButton.classList.contains('cell_flag')) {
             return;
         }
 
@@ -70,6 +135,8 @@ document.addEventListener('DOMContentLoaded', function() {
         revealedCount++;
 
         if (cellButton.dataset.isMine === "true") {
+            stopTimer();
+            isGameActive = false;
             cellButton.innerText = "💣";
             cellButton.style.backgroundColor = "oklch(55% 0.22 25)";
             
@@ -119,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function chordCell(cellButton) {
+        if (!isGameActive) return;
         const currentRow = parseInt(cellButton.dataset.row);
         const currentCol = parseInt(cellButton.dataset.col);
         const targetMineCount = countAdjacentMines(currentRow, currentCol);
@@ -155,13 +223,14 @@ document.addEventListener('DOMContentLoaded', function() {
         grid = [];
         cellsList = [];
         revealedCount = 0;
+        isGameActive = true;
         
         rows = parseInt(customRows);
         cols = parseInt(customCols);
         totalMines = Math.min(parseInt(customMines), (rows * cols) - 1);
 
-        board.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-        board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        board.style.gridTemplateRows = `repeat(${rows}, 30px)`;
+        board.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
 
         for (let r = 0; r < rows; r++) {
             grid[r] = [];
@@ -206,6 +275,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 minesPlaced++;
             }
         }
+
+        startTimer();
     }
 
     difficultySelect.addEventListener('change', function() {
