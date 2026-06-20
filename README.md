@@ -13,5 +13,5 @@ Made for fun and to learn more of HTML and JS.
 
 <details>
   <summary>Note:</summary>
-  <p>Made 99% by Gemini lol</p>
+  <p>Made 99% by Gemini lol<br>Uses Supabase's database system</p>
 </details>
