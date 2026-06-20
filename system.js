@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const colsInput = document.getElementById('colsInput');
     const minesInput = document.getElementById('minesInput');
     const startBtn = document.getElementById('startBtn');
+    const modeBtn = document.getElementById('modeBtn');
 
     let grid = [];
     let cellsList = [];
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let rows = 8;
     let cols = 8;
     let revealedCount = 0;
+    let isFlagMode = false;
 
     function getNeighbor(row, col) {
         if (grid[row] && grid[row][col]) {
@@ -39,10 +41,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalSafeCells = cellsList.length - totalMines;
         if (revealedCount === totalSafeCells) {
             setTimeout(function() {
-                alert("Congratulations! You won!");
+                alert("wow you win so gosu");
                 initGame(rows, cols, totalMines);
             }, 300);
         }
+    }
+
+    function toggleFlag(cellButton) {
+        if (cellButton.classList.contains('cell_revealed')){
+            return; 
+        }
+        cellButton.classList.toggle('cell_flag');
+        cellButton.innerText = cellButton.classList.contains('cell_flag') ? "🚩" : "";
     }
 
     function revealCell(cellButton) {
@@ -67,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             setTimeout(function() {
-                alert("Game Over! Try again.");
+                alert("bro died");
                 initGame(rows, cols, totalMines); 
             }, 1000);
             return;
@@ -159,18 +169,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 cellButton.addEventListener('contextmenu', function(event){
                     event.preventDefault(); 
-                    if (cellButton.classList.contains('cell_revealed')){
-                        return; 
-                    }
-                    cellButton.classList.toggle('cell_flag');
-                    cellButton.innerText = cellButton.classList.contains('cell_flag') ? "🚩" : "";
+                    toggleFlag(cellButton);
                 });
 
                 cellButton.addEventListener('click', function(){
-                    if (cellButton.classList.contains('cell_revealed')) {
-                        chordCell(cellButton);
+                    if (isFlagMode) {
+                        toggleFlag(cellButton);
                     } else {
-                        revealCell(cellButton);
+                        if (cellButton.classList.contains('cell_revealed')) {
+                            chordCell(cellButton);
+                        } else {
+                            revealCell(cellButton);
+                        }
                     }
                 });
 
@@ -190,6 +200,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 minesPlaced++;
             }
         }
+    }
+
+    if (modeBtn) {
+        modeBtn.addEventListener('click', function() {
+            isFlagMode = !isFlagMode;
+            modeBtn.innerText = isFlagMode ? "Mode: Flag" : "Mode: Reveal";
+        });
     }
 
     startBtn.addEventListener('click', function() {

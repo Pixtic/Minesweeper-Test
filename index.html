@@ -1,29 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minesweeper</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="bg1">
-
-    <div class="controls">
-        <label for="rowsInput">Rows:</label>
-        <input type="number" id="rowsInput" value="8" min="2" max="30">
-
-        <label for="colsInput">Columns:</label>
-        <input type="number" id="colsInput" value="8" min="2" max="30">
-
-        <label for="minesInput">Mines:</label>
-        <input type="number" id="minesInput" value="10" min="1">
-
-        <button id="startBtn">Start Game</button>
-        <button id="modeBtn">Mode: Reveal</button>
-    </div>
-
-    <div class="board"></div>
-
-    <script src="script.js"></script>
-</body>
+<html>
+    <head>
+        <style> @import "styles.css"; </style>
+    </head>
+    <body class="bg1">
+        <h1>Minesweeper</h1>
+        <div class="controls">
+            <label>Rows: <input type="number" id="rowsInput" value="8" min="2" max="30"></label>
+            <label>Columns: <input type="number" id="colsInput" value="8" min="2" max="30"></label>
+            <label>Mines: <input type="number" id="minesInput" value="10" min="1"></label>
+            <button id="startBtn">New Game</button>
+        </div>
+        <div class="board"></div>
+        <button id="modeBtn" style="margin-top: 20px;">Mode: Reveal</button>
+        <script src="system.js" defer></script>
+    </body>
 </html>
