@@ -149,10 +149,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             setTimeout(function() {
+                timerDisplay.innerText = "Time: 0s";
                 alert("Game Over! Try again.");
                 const currentMode = difficultySelect.value;
                 initGame(difficulties[currentMode].rows, difficulties[currentMode].cols, difficulties[currentMode].mines); 
-            }, 1000);
+            }, 500);
             return;
         }
 
