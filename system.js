@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const board = document.querySelector('.board');
-    const rowsInput = document.getElementById('rowsInput');
-    const colsInput = document.getElementById('colsInput');
-    const minesInput = document.getElementById('minesInput');
     const startBtn = document.getElementById('startBtn');
     const modeBtn = document.getElementById('modeBtn');
+    const difficultySelect = document.getElementById('difficultySelect');
 
     let grid = [];
     let cellsList = [];
@@ -13,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let cols = 8;
     let revealedCount = 0;
     let isFlagMode = false;
+
+    const difficulties = {
+        easy: { rows: 8, cols: 8, mines: 10 },
+        medium: { rows: 16, cols: 16, mines: 40 },
+        hard: { rows: 16, cols: 30, mines: 99 }
+    };
 
     function getNeighbor(row, col) {
         if (grid[row] && grid[row][col]) {
@@ -41,8 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalSafeCells = cellsList.length - totalMines;
         if (revealedCount === totalSafeCells) {
             setTimeout(function() {
-                alert("wow you win so gosu");
-                initGame(rows, cols, totalMines);
+                alert("Congratulations! You won!");
+                const currentMode = difficultySelect.value;
+                initGame(difficulties[currentMode].rows, difficulties[currentMode].cols, difficulties[currentMode].mines);
             }, 300);
         }
     }
@@ -77,8 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             setTimeout(function() {
-                alert("bro died");
-                initGame(rows, cols, totalMines); 
+                alert("Game Over! Try again.");
+                const currentMode = difficultySelect.value;
+                initGame(difficulties[currentMode].rows, difficulties[currentMode].cols, difficulties[currentMode].mines); 
             }, 1000);
             return;
         }
@@ -202,6 +208,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    difficultySelect.addEventListener('change', function() {
+        const mode = difficultySelect.value;
+        initGame(difficulties[mode].rows, difficulties[mode].cols, difficulties[mode].mines);
+    });
+
     if (modeBtn) {
         modeBtn.addEventListener('click', function() {
             isFlagMode = !isFlagMode;
@@ -210,7 +221,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     startBtn.addEventListener('click', function() {
-        initGame(rowsInput.value, colsInput.value, minesInput.value);
+        const mode = difficultySelect.value;
+        initGame(difficulties[mode].rows, difficulties[mode].cols, difficulties[mode].mines);
     });
 
     initGame(8, 8, 10);

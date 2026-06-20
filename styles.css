@@ -10,6 +10,28 @@
     min-height: 100vh;
 }
 
+#difficultySelect {
+    padding: 6px 10px;
+    background-color: oklch(35% 0.02 240);
+    border: 1px solid oklch(50% 0.02 240);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    outline: none;
+}
+
+#difficultySelect:hover {
+    background-color: oklch(40% 0.02 240);
+    border-color: oklch(60% 0.02 240);
+}
+
+#difficultySelect option {
+    background-color: oklch(25% 0.02 240);
+    color: white;
+}
+
 .controls {
     margin-bottom: 20px;
     display: flex;
@@ -53,13 +75,13 @@
 }
 
 .cell {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-color: oklch(50% 0.02 240);
     border: none;
     cursor: pointer;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,17 +92,17 @@
 }
 
 .cell_revealed {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-color: oklch(30% 0.02 240);
     border: none;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .cell_flag {
-    font-size: 16px;
+    font-size: 12px;
 }

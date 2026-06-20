@@ -6,13 +6,20 @@
     <body class="bg1">
         <h1>Minesweeper</h1>
         <div class="controls">
-            <label>Rows: <input type="number" id="rowsInput" value="8" min="2" max="30"></label>
-            <label>Columns: <input type="number" id="colsInput" value="8" min="2" max="30"></label>
-            <label>Mines: <input type="number" id="minesInput" value="10" min="1"></label>
+            <label>Difficulty:
+                <select id="difficultySelect">
+                    <option value="easy">Easy (8x8, 10 Mines)</option>
+                    <option value="medium">Medium (16x16, 40 Mines)</option>
+                    <option value="hard">Hard (30x16, 99 Mines)</option>
+                </select>
+            </label>
             <button id="startBtn">New Game</button>
         </div>
+        
         <div class="board"></div>
+        
         <button id="modeBtn" style="margin-top: 20px;">Mode: Reveal</button>
+        
         <script src="system.js" defer></script>
     </body>
 </html>
