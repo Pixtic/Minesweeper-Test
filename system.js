@@ -171,10 +171,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (isTouchDevice) {
                     let pressTimer = null;
                     let isLongPress = false;
+                    let startX = 0;
+                    let startY = 0;
 
                     cellButton.addEventListener('touchstart', function(event) {
                         event.preventDefault();
                         isLongPress = false;
+                        
+                        const touch = event.touches[0];
+                        startX = touch.clientX;
+                        startY = touch.clientY;
 
                         pressTimer = setTimeout(function() {
                             isLongPress = true;
@@ -195,8 +201,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }, { passive: false });
 
-                    cellButton.addEventListener('touchmove', function() {
-                        clearTimeout(pressTimer);
+                    cellButton.addEventListener('touchmove', function(event) {
+                        const touch = event.touches[0];
+                        const moveX = Math.abs(touch.clientX - startX);
+                        const moveY = Math.abs(touch.clientY - startY);
+
+                        if (moveX > 10 || moveY > 10) {
+                            clearTimeout(pressTimer);
+                        }
                     });
 
                     cellButton.addEventListener('touchcancel', function() {
