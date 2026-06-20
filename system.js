@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let rows = 8;
     let cols = 8;
     let revealedCount = 0;
+    const LONG_PRESS_DURATION = 500;
 
     function getNeighbor(row, col) {
         if (grid[row] && grid[row][col]) {
@@ -43,6 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 initGame(rows, cols, totalMines);
             }, 300);
         }
+    }
+
+    function toggleFlag(cellButton) {
+        if (cellButton.classList.contains('cell_revealed')){
+            return; 
+        }
+        cellButton.classList.toggle('cell_flag');
+        cellButton.innerText = cellButton.classList.contains('cell_flag') ? "🚩" : "";
     }
 
     function revealCell(cellButton) {
@@ -147,6 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
         board.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
         board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
+        const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
         for (let r = 0; r < rows; r++) {
             grid[r] = [];
             for (let c = 0; c < cols; c++) {
@@ -157,22 +168,55 @@ document.addEventListener('DOMContentLoaded', function() {
                 cellButton.dataset.col = c;
                 cellButton.dataset.isMine = "false";
                 
-                cellButton.addEventListener('contextmenu', function(event){
-                    event.preventDefault(); 
-                    if (cellButton.classList.contains('cell_revealed')){
-                        return; 
-                    }
-                    cellButton.classList.toggle('cell_flag');
-                    cellButton.innerText = cellButton.classList.contains('cell_flag') ? "🚩" : "";
-                });
+                if (isTouchDevice) {
+                    let pressTimer = null;
+                    let isLongPress = false;
 
-                cellButton.addEventListener('click', function(){
-                    if (cellButton.classList.contains('cell_revealed')) {
-                        chordCell(cellButton);
-                    } else {
-                        revealCell(cellButton);
-                    }
-                });
+                    cellButton.addEventListener('touchstart', function(event) {
+                        event.preventDefault();
+                        isLongPress = false;
+
+                        pressTimer = setTimeout(function() {
+                            isLongPress = true;
+                            toggleFlag(cellButton);
+                        }, LONG_PRESS_DURATION);
+                    }, { passive: false });
+
+                    cellButton.addEventListener('touchend', function(event) {
+                        event.preventDefault();
+                        clearTimeout(pressTimer);
+
+                        if (!isLongPress) {
+                            if (cellButton.classList.contains('cell_revealed')) {
+                                chordCell(cellButton);
+                            } else {
+                                revealCell(cellButton);
+                            }
+                        }
+                    }, { passive: false });
+
+                    cellButton.addEventListener('touchmove', function() {
+                        clearTimeout(pressTimer);
+                    });
+
+                    cellButton.addEventListener('touchcancel', function() {
+                        clearTimeout(pressTimer);
+                    });
+
+                } else {
+                    cellButton.addEventListener('contextmenu', function(event){
+                        event.preventDefault(); 
+                        toggleFlag(cellButton);
+                    });
+
+                    cellButton.addEventListener('click', function(){
+                        if (cellButton.classList.contains('cell_revealed')) {
+                            chordCell(cellButton);
+                        } else {
+                            revealCell(cellButton);
+                        }
+                    });
+                }
 
                 board.appendChild(cellButton);
                 
